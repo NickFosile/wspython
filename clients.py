@@ -6,8 +6,8 @@ class Protocol():
 
     packet_start = b"<begin>"
     packet_end   = b"<end>"
-    #the idea here is to implement a protocol that sends data wrapped between starting and "ending" tags
-    #this is for testing purposes, I will implement a protocol later.
+    #the idea here is to implement the websocket protocol, including the websocket client/server hello etc
+    #this is for testing purposes, I will implement the protocol later.
 
     @staticmethod
     def closing_msg():
@@ -28,7 +28,7 @@ class ClientConnection(Thread):
         
         if len(ClientConnection.clientPool) >= ClientConnection.MAX_CLIENTS:
             try:
-                #the Protocol object is a class that will implement a communication protocol on Application layer
+                #the Protocol object is a class that will implement the ws protocol. I will fix it after I am done with sockets.
                 self.connection.send(Protocol.closing_msg())
                 self.connection.shutdown(socket.SHUT_RDWR)
                 self.connection.close()
