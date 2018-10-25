@@ -1,9 +1,11 @@
 import socket
 import sys
+from clients import *
+import time
 
 #configuration
 BACKLOG     = 5 #maximum number of queued connections. Should be at least 1. It is system-dependent
-MAX_CLIENTS = 20 # max number of connected/accepted clients
+ClientConnection.MAX_CLIENTS = 20 # max number of connected/accepted clients
 
 #global vars
 
@@ -26,19 +28,29 @@ def start_server(host, port):
         server_socket.listen(BACKLOG)
         initialized = True
     except socket.error as sock_error:
-        pass
+        print (sock_error)
+        #TODO handle the error more gracefully or log it.
+        print ("[ERROR]: The server failed to bind to %s:%d . Exiting" % (host, port))
+        sys.exit(1)
     except:
-        pass
+        print (sys.exc_info())
+        print ("[ERROR]: The server failed to bind to %s:%d . Exiting" % (host, port))
+        sys.exit(1)
+        
+               
 
 def accept_connections():
     global server_socket
+    global initialized
     if not initialized:
         print("[!] The server is not started. exiting")
         #TODO release any resources
         sys.exit(1)
     while initialized:
         client = server_socket.accept()
-        #to be continued
+        ClientConnection(client)
+        time.sleep(0.12)
+        #maybe do something if MAX_CLIENTS is reached. I will consider it later
         
 start_server(HOST, PORT)
 accept_connections()
