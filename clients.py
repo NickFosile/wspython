@@ -67,6 +67,7 @@ class ClientConnection(Thread):
         self.connection.close()
         self.alive = False # terminate thread
         del self.connection
+        print("[!] Client is disposed")
                    
         
             

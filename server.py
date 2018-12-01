@@ -27,6 +27,7 @@ def start_server(host, port):
         server_socket.bind((host,port))
         server_socket.listen(BACKLOG)
         initialized = True
+        print("[+] Client managing Server started and listening on %s:%i" % (host, port))
     except socket.error as sock_error:
         print (sock_error)
         #TODO handle the error more gracefully or log it.
@@ -54,3 +55,5 @@ def accept_connections():
         
 start_server(HOST, PORT)
 accept_connections()
+
+
