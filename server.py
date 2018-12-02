@@ -48,11 +48,18 @@ def accept_connections():
         #TODO release any resources
         sys.exit(1)
     while initialized:
-        client = server_socket.accept()
-        ClientConnection(client)
-        time.sleep(0.12)
-        #maybe do something if MAX_CLIENTS is reached. I will consider it later
-        
+        try:
+            client = server_socket.accept()
+            ClientConnection(client)
+            time.sleep(0.12)
+            #maybe do something if MAX_CLIENTS is reached. I will consider it later
+        except KeyboardInterrupt:
+            print("[!] Keyboard Interrupt was received. Shutting down all connected clients")
+            for cli in ClientConnection.clientPool:
+                cli.terminate()
+            print("[-] Shutting down. Bye!")
+            sys.exit()
+            
 start_server(HOST, PORT)
 accept_connections()
 
